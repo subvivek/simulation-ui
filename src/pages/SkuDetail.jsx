@@ -13,10 +13,11 @@ const SkuDetail = ({ sku }) => {
   const [trendData, setTrendData] = useState(null)
   const [suggestedAction, setSuggestedAction] = useState('Loading...')
   const [isAutoResolved, setIsAutoResolved] = useState(false)
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
   // Fetch latest simulation day and metric lookback period
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/simulation-range')
+    fetch(`${API_BASE}/simulation-range`)
       .then(res => res.json())
       .then(data => {
         setSimulationDay(data.maxDay)
@@ -36,7 +37,7 @@ const SkuDetail = ({ sku }) => {
     setSuggestedAction('Loading...')
     setContext(null)
 
-    fetch('http://127.0.0.1:5000/api/sku-root-cause', {
+    fetch(`${API_BASE}/sku-root-cause`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sku, day: simulationDay })
@@ -61,7 +62,7 @@ const SkuDetail = ({ sku }) => {
 
     setVendorData(null)
 
-    fetch(`http://127.0.0.1:5000/api/vendor-performance/${sku}`)
+    fetch(`${API_BASE}/vendor-performance/${sku}`)
       .then((res) => res.json())
       .then((data) => setVendorData(data))
       .catch(() => setVendorData(null))
@@ -71,7 +72,7 @@ const SkuDetail = ({ sku }) => {
   useEffect(() => {
     if (!sku) return
 
-    fetch(`http://127.0.0.1:5000/api/get_inventory_trend/${sku}`)
+    fetch(`${API_BASE}/get_inventory_trend/${sku}`)
       .then((res) => res.json())
       .then((data) => setTrendData(data))
       .catch(() => setTrendData(null))

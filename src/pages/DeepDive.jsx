@@ -13,9 +13,10 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   const [toDay, setToDay] = useState(30)
   const [chartData, setChartData] = useState(null)
   const [vendorData, setVendorData] = useState(null)
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/sku-list')
+    fetch(`${API_BASE}/sku-list`)
       .then((res) => res.json())
       .then((data) => {
         setSkuList(data.skus)
@@ -23,7 +24,7 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
       })
       .catch(() => setSkuList([]))
 
-    fetch('http://127.0.0.1:5000/api/simulation-range')
+    fetch(`${API_BASE}/simulation-range`)
       .then((res) => res.json())
       .then((data) => {
         setMinDay(data.minDay)
@@ -41,7 +42,7 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   
   useEffect(() => {
     if (!alertSkus || alertSkus.length === 0) {
-      fetch('http://127.0.0.1:5000/api/alerts/skus?level=all')
+      fetch(`${API_BASE}/alerts/skus?level=all`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.length > 0) setAlertSkus(data)
@@ -54,7 +55,7 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   useEffect(() => {
     if (!selectedSku) return
 
-    fetch(`http://127.0.0.1:5000/api/vendor-performance/${selectedSku}`)
+    fetch(`${API_BASE}/vendor-performance/${selectedSku}`)
       .then((res) => res.json())
       .then((data) => setVendorData(data))
       .catch(() => setVendorData(null))
@@ -63,7 +64,7 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   const handleSearch = () => {
     if (!selectedSku) return
 
-    fetch(`http://127.0.0.1:5000/api/get_inventory_trend/${selectedSku}`)
+    fetch(`${API_BASE}/get_inventory_trend/${selectedSku}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`API returned status ${res.status}`)

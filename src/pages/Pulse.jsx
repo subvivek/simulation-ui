@@ -20,6 +20,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
   const [fulfilledVsUnfulfilled, setFulfilledVsUnfulfilled] = useState([])
   const API_BASE = process.env.REACT_APP_API_BASE;
   console.log(API_BASE)
+  
   useEffect(() => {
     fetch(`${API_BASE}/pulse-metrics`)
       .then((res) => res.json())
