@@ -22,7 +22,11 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
   console.log(API_BASE)
   
   useEffect(() => {
-    fetch(`${API_BASE}/pulse-metrics`)
+    fetch(`${API_BASE}/pulse-metrics`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    }) 
       .then((res) => res.json())
       .then((data) => {
         setInstockData(data.instockRate)
