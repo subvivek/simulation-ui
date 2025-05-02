@@ -34,13 +34,21 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })      
       .catch((err) => console.error('Failed to fetch pulse metrics:', err))
 
-    fetch(`${API_BASE}/alert-counts`)
+      fetch(`${API_BASE}/alert-counts`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
+        }
+      })     
       .then((res) => res.json())
       .then((data) => setAlertCounts(data))
       .catch((err) => console.error('Failed to fetch alert counts:', err))
 
     // Fetch promotion SKUs
-    fetch(`${API_BASE}/promotion-skus`)
+    fetch(`${API_BASE}/promotion-skus`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -56,8 +64,12 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })
 
     // Fetch critical SKUs
-    fetch(`${API_BASE}/critical-skus`)
-      .then((res) => res.json())
+    fetch(`${API_BASE}/critical-skus`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
+      .then((res) => res.json())  
       .then((data) => {
         if (data.error) {
           console.error('Failed to fetch critical SKUs:', data.error)
@@ -72,7 +84,11 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })
 
     // Add this new fetch for alerts analysis
-    fetch(`${API_BASE}/alerts/summary`)
+    fetch(`${API_BASE}/alerts/summary`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -87,7 +103,11 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
   const handleAlertClick = (level) => {
     setSelectedLevel(level)
 
-    fetch(`${API_BASE}/alerts/skus?level=${level}`)
+    fetch(`${API_BASE}/alerts/skus?level=${level}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data && data.length > 0) {
