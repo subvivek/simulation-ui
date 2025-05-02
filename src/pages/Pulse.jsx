@@ -18,9 +18,10 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
   const [forecastError, setForecastError] = useState([])
   const [alertsAnalysis, setAlertsAnalysis] = useState('')
   const [fulfilledVsUnfulfilled, setFulfilledVsUnfulfilled] = useState([])
-
+  const API_BASE = process.env.REACT_APP_API_BASE;
+  console.log(API_BASE)
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/pulse-metrics')
+    fetch(`${API_BASE}/pulse-metrics`)
       .then((res) => res.json())
       .then((data) => {
         setInstockData(data.instockRate)
@@ -32,13 +33,13 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })      
       .catch((err) => console.error('Failed to fetch pulse metrics:', err))
 
-    fetch('http://127.0.0.1:5000/api/alert-counts')
+    fetch(`${API_BASE}/alert-counts`)
       .then((res) => res.json())
       .then((data) => setAlertCounts(data))
       .catch((err) => console.error('Failed to fetch alert counts:', err))
 
     // Fetch promotion SKUs
-    fetch('http://127.0.0.1:5000/api/promotion-skus')
+    fetch(`${API_BASE}/promotion-skus`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -54,7 +55,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })
 
     // Fetch critical SKUs
-    fetch('http://127.0.0.1:5000/api/critical-skus')
+    fetch(`${API_BASE}/critical-skus`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -70,7 +71,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
       })
 
     // Add this new fetch for alerts analysis
-    fetch('http://127.0.0.1:5000/api/alerts/summary')
+    fetch(`${API_BASE}/alerts/summary`)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
@@ -85,7 +86,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
   const handleAlertClick = (level) => {
     setSelectedLevel(level)
 
-    fetch(`http://127.0.0.1:5000/api/alerts/skus?level=${level}`)
+    fetch(`${API_BASE}/alerts/skus?level=${level}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.length > 0) {
@@ -327,7 +328,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
                         setSelectedLevel('red');
                         
                         // Then fetch the red alerts
-                        fetch(`http://127.0.0.1:5000/api/alerts/skus?level=red`)
+                        fetch(`${API_BASE}/alerts/skus?level=red`)
                           .then((res) => res.json())
                           .then((data) => {
                             if (data && data.length > 0) {
@@ -470,7 +471,7 @@ const Pulse = ({ setAlertSkus, setSelectedLevel, onSkuClick }) => {
                     onClick={() => {
                       if (sku.alert_level === 'red') {
                         setSelectedLevel('red');
-                        fetch(`http://127.0.0.1:5000/api/alerts/skus?level=red`)
+                        fetch(`${API_BASE}/alerts/skus?level=red`)
                           .then((res) => res.json())
                           .then((data) => {
                             if (data && data.length > 0) {
