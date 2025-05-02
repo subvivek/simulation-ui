@@ -5,9 +5,10 @@ import SkuDetail from './SkuDetail'
 const SkuDetailWrapper = () => {
   const { sku } = useParams()
   const [data, setData] = useState([])
-  const API_BASE = process.env.REACT_APP_API_BASE;
 
   useEffect(() => {
+    const API_BASE = process.env.REACT_APP_API_BASE;
+
     fetch(`${API_BASE}/get_inventory_trend/${sku}`)
       .then(res => res.json())
       .then(json => {
