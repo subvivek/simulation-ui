@@ -16,7 +16,11 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   const API_BASE = process.env.REACT_APP_API_BASE;
 
   useEffect(() => {
-    fetch(`${API_BASE}/sku-list`)
+    fetch(`${API_BASE}/sku-list`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })   
       .then((res) => res.json())
       .then((data) => {
         setSkuList(data.skus)
@@ -24,7 +28,11 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
       })
       .catch(() => setSkuList([]))
 
-    fetch(`${API_BASE}/simulation-range`)
+    fetch(`${API_BASE}/simulation-range`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setMinDay(data.minDay)
@@ -42,7 +50,11 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   
   useEffect(() => {
     if (!alertSkus || alertSkus.length === 0) {
-      fetch(`${API_BASE}/alerts/skus?level=all`)
+      fetch(`${API_BASE}/alerts/skus?level=all`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
+        }
+      })
         .then((res) => res.json())
         .then((data) => {
           if (data?.length > 0) setAlertSkus(data)
@@ -55,7 +67,11 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   useEffect(() => {
     if (!selectedSku) return
 
-    fetch(`${API_BASE}/vendor-performance/${selectedSku}`)
+    fetch(`${API_BASE}/vendor-performance/${selectedSku}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => setVendorData(data))
       .catch(() => setVendorData(null))
@@ -64,7 +80,11 @@ const DeepDive = ({ alertSkus = [], setSelectedLevel = () => {}, setAlertSkus = 
   const handleSearch = () => {
     if (!selectedSku) return
 
-    fetch(`${API_BASE}/get_inventory_trend/${selectedSku}`)
+    fetch(`${API_BASE}/get_inventory_trend/${selectedSku}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`API returned status ${res.status}`)

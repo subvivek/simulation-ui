@@ -9,7 +9,11 @@ const SkuDetailWrapper = () => {
   useEffect(() => {
     const API_BASE = process.env.REACT_APP_API_BASE;
 
-    fetch(`${API_BASE}/get_inventory_trend/${sku}`)
+    fetch(`${API_BASE}/get_inventory_trend/${sku}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })    
       .then(res => res.json())
       .then(json => {
         if (json.error) {

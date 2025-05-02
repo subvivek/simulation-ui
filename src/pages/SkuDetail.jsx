@@ -17,7 +17,11 @@ const SkuDetail = ({ sku }) => {
 
   // Fetch latest simulation day and metric lookback period
   useEffect(() => {
-    fetch(`${API_BASE}/simulation-range`)
+    fetch(`${API_BASE}/simulation-range`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })    
       .then(res => res.json())
       .then(data => {
         setSimulationDay(data.maxDay)
@@ -38,6 +42,9 @@ const SkuDetail = ({ sku }) => {
     setContext(null)
 
     fetch(`${API_BASE}/sku-root-cause`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      },
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sku, day: simulationDay })
@@ -62,7 +69,11 @@ const SkuDetail = ({ sku }) => {
 
     setVendorData(null)
 
-    fetch(`${API_BASE}/vendor-performance/${sku}`)
+    fetch(`${API_BASE}/vendor-performance/${sku}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => setVendorData(data))
       .catch(() => setVendorData(null))
@@ -72,7 +83,11 @@ const SkuDetail = ({ sku }) => {
   useEffect(() => {
     if (!sku) return
 
-    fetch(`${API_BASE}/get_inventory_trend/${sku}`)
+    fetch(`${API_BASE}/get_inventory_trend/${sku}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then((res) => res.json())
       .then((data) => setTrendData(data))
       .catch(() => setTrendData(null))
