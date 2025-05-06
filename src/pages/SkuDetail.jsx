@@ -122,9 +122,31 @@ const SkuDetail = ({ sku }) => {
         {/* Bottom 70%: Inventory Chart + Vendor Performance */}
         <Box flex="1" p={2} display="flex" gap={2}>
           <Box flex={1}>
-            <Typography variant="h6" fontWeight="bold" mb={2}>
+            <Typography variant="h6" fontWeight="bold" mb={1}>
               📊 Inventory Trend for {sku}
             </Typography>
+
+            {/* Cumulative instock rate and lost sales display */}
+            {trendData && trendData.days && trendData.days.length > 0 && (
+              (() => {
+                const filteredIndices = trendData.days.map((d, i) => i).filter(i => {
+                  const day = trendData.days[i];
+                  return day >= range[0] && day <= range[1];
+                });
+
+                const fulfilledInRange = filteredIndices.map(i => trendData.fulfilled[i]).reduce((a, b) => a + b, 0);
+                const unfulfilledInRange = filteredIndices.map(i => trendData.unfulfilled[i]).reduce((a, b) => a + b, 0);
+                const instockRate = (fulfilledInRange / (fulfilledInRange + unfulfilledInRange || 1)) * 100;
+                const lostSales = (trendData.price || 0) * unfulfilledInRange;
+
+                return (
+                  <Typography variant="body2" fontWeight="bold" mb={1}>
+                    Instock Rate: {instockRate.toFixed(1)}%, Lost Sales: ${ (lostSales / 1000).toFixed(1) }k
+                  </Typography>
+                );
+              })()
+            )}
+
             {trendData ? (
               <DeepDiveChart
                 title={`SKU ${sku} Inventory & Demand`}

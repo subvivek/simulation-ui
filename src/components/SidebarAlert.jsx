@@ -28,8 +28,8 @@ const SidebarAlert = ({ alertSkus = [], selectedLevel = '', onSkuClick = () => {
   )
   
   // Then split into unresolved and resolved
-  const unresolvedSkus = filteredSkus.filter(sku => !sku.auto_action)
-  const resolvedSkus = filteredSkus.filter(sku => sku.auto_action)
+  const unresolvedSkus = filteredSkus.filter(sku => !sku.auto_action).sort((a, b) => b.ops_loss - a.ops_loss)
+  const resolvedSkus = filteredSkus.filter(sku => sku.auto_action).sort((a, b) => b.ops_loss - a.ops_loss)
 
   const SkuListItem = ({ sku }) => (
     <ListItem disablePadding>
@@ -61,7 +61,7 @@ const SidebarAlert = ({ alertSkus = [], selectedLevel = '', onSkuClick = () => {
               </Typography>
             </Box>
           }
-          secondary="Projected OPS Loss"  // Now just showing OPS Loss for all SKUs
+          secondary="Projected Lost Sales"  // Now just showing OPS Loss for all SKUs
         />
       </ListItemButton>
     </ListItem>
