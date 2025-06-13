@@ -29,7 +29,7 @@ const AskDobby = ({ sku = null }) => {
         ...prev,
         {
           sender: 'dobby',
-          text: "Hi! I'm Dobby 🧦 — your supply chain assistant. Ask me anything about this SKU!"
+          text: "Hi! I'm Dobby 🧦, your supply chain assistant. Ask me anything about this SKU!"
         }
       ])
       setHasOpenedBefore(true)
